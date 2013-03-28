@@ -34,6 +34,6 @@ end
 Dir.mkdir("uncrushed")
 files.each do |f|
 	puts "Found file: #{f}... uncrushing it because we street!"
-		`/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/pngcrush -revert-iphone-optimizations -q #{f} uncrushed/#{f}`
+		`/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/pngcrush -revert-iphone-optimizations -q #{f} uncrushed/#{f}`
 	puts "Creating new file: #{f}"
 end
