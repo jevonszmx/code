@@ -2,8 +2,7 @@
 //  MyScrollView.m
 //  TouchScrollView
 //
-//  Created by gil on 4/8/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2013 zmx. All rights reserved.
 //
 
 #import "MyScrollView.h"

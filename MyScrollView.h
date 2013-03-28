@@ -1,9 +1,8 @@
 //
 //  MyScrollView.h
 //  TouchScrollView
-//
-//  Created by gil on 4/8/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  使用UISCrollView的viewController只要#import "MyScrollView.h"即可
+//  Copyright 2013 zmx. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
