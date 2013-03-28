@@ -1,7 +1,7 @@
 How To Use
 ----------
 
-1.  将下载的zip中的所有文件拷贝到项目文件夹中
+1.  下载项目：[https://github.com/rs/SDWebImage](https://github.com/rs/SDWebImage);
 2.  将项目文件SDWebImage.xproj添加到自身的项目文件中
 3.  选中自身项目，在Target Dependencies中添加SDWebImage（一共有三个版本，根据需要选取一个)
 4.  在Link Binary With Library中，添加SDWebImage的.a静态库
