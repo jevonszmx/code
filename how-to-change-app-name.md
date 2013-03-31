@@ -16,4 +16,12 @@
 
 *   6.用XCode载入该工程,点击 Build/Clean all targets
 
+
 然后重新编译工程 — 应当能看到输出的应用有了新名字吧!有的文章说需要修改.pch文件名,但那样更复杂了,所以这里不做介绍. 
+
+***
+
+#### 修改程序显示的名字
+
+修改Info.plist里面的Bundle display name
+
