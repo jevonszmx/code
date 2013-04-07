@@ -3,7 +3,7 @@
 
 每种语言发展到一个阶段，就会出现相应的依赖管理工具, 或者是中央代码仓库。比如
 
-```objective-c
+```
 Java: maven，Ivy
 Ruby: gems
 Python: pip, easy_install
@@ -36,7 +36,7 @@ CocoaPods的安装和使用介绍
 
 安装方式异常简单, Mac下都自带ruby，使用ruby的gem命令即可下载安装：
 
-```objective-c
+```shell
 $ gem install cocoapods
 $ pod setup
 ```
@@ -45,7 +45,7 @@ $ pod setup
 
 使用时需要新建一个名为Podfile的文件，以如下格式，将依赖的库名字依次列在文件中即可
 
-```objective-c
+```shell
 platform :ios
 pod 'JSONKit',       '~> 1.4'
 pod 'Reachability',  '~> 3.0.0'
@@ -55,7 +55,7 @@ pod 'RegexKitLite'
 
 然后你将编辑好的Podfile文件放到你的项目根目录中，执行如下命令即可：
 
-```objective-c
+```shell
 cd "your project home"
 pod install
 ```
@@ -68,7 +68,7 @@ pod install
 
 你如果不知道cocoaPods管理的库中，是否有你想要的库，那么你可以通过pod search命令进行查找，以下是我用pod search json查找到的所有可用的库：
 
-```objective-c
+```shell
 $ pod search json
 
 
@@ -117,7 +117,7 @@ $ gem install rails
 
 如果你想让CococaPods帮你生成第三方库的帮助文档，并集成到XCode中，那么用brew安装appledoc即可：
 
-```objective-c
+```shell
 brew install appledoc
 ```
 
