@@ -86,6 +86,10 @@ $ pod search json
 	- Versions: 1.5pre, 1.4 [master repo]
 ```
 
+一些相关注意事项
+-----
+有时无法载入相关头文件，需要手动设置项目搜索路径：
+> 在项目的 Target - Build Settings - User Header Search Paths的里设置一下: 按+增加，输入${SRCROOT}，后面选上recursive。
 
 生成第三方库的帮助文档
 ------
