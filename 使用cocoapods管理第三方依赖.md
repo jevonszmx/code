@@ -88,8 +88,29 @@ $ pod search json
 
 一些相关注意事项
 -----
-有时无法载入相关头文件，需要手动设置项目搜索路径：
+
+### 有时无法载入相关头文件，需要手动设置项目搜索路径：
 > 在项目的 Target - Build Settings - User Header Search Paths的里设置一下: 按+增加，输入${SRCROOT}，后面选上recursive。
+
+### gem install 没反应
+
+Rubygems 镜像 - 淘宝网 为什么有这个?
+
+由于国内网络原因(你懂的),导致 rubygems.org 存放在 Amazon S3 上面的资源文件间歇性连接失 败。所以你会与遇到 gem install rack或 bundle install的时候半天没有响应,具体可以用 gem install rails -V来查看执行过程。
+
+这是一个完整 rubygems.org 镜像,你可以用此代替官方版本,同步频率目前为15分钟一次以保证尽量与 官方服务同步。
+
+如何使用?
+
+```shell
+$ gem sources --remove https://rubygems.org/ $ gem sources -a http://ruby.taobao.org/
+$ gem sources -l
+*** CURRENT SOURCES ***
+http://ruby.taobao.org #请确保只有 ruby.taobao.org
+
+$ gem install rails
+```
+
 
 生成第三方库的帮助文档
 ------
