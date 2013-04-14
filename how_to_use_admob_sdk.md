@@ -9,7 +9,7 @@ StoreKit.framework
 常见问题
 =====
 
-# bool _WebTryThreadLock(bool): Tried to obtain the web lock from a thread other than the main thread or the web thread. This may be a result of calling to UIKit from a secondary thread
+### bool _WebTryThreadLock(bool): Tried to obtain the web lock from a thread other than the main thread or the web thread. This may be a result of calling to UIKit from a secondary thread
 
 切换viewController时，需要在主进程中进行：
 
