@@ -1,5 +1,5 @@
 UIImageView设置排版，使用ContentMode的问题
-===
+---
 
 You'll have to subclass UIView
 Add an UIImageview as a property and add it as subview.
