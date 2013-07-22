@@ -9,9 +9,41 @@ From: <http://www.tfan.org/nodejs-running-on-port-80-with-apache/>
 ## 检查 Apache 配置文件 
 
 首先找到并打开 Apache 的配置文件，检查一下 Proxy 模块是否已经被加载，比方在我的 CentOS 上配置文件的路径是: `/etc/httpd/conf/httpd.conf`  
+```
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
 
+```
 
 ## 新增一个 VHOST 配置 
+
+```
+<VirtualHost *:80>
+  ServerAdmin admin@gmail.com
+  ServerName foobar.com
+  ServerAlias www.foobar.com
+ 
+  ProxyRequests off
+ 
+  <Proxy *>
+    Order deny,allow
+    Allow from all
+  </Proxy>
+ 
+  <Location />
+    ProxyPass http://localhost:11342/
+    ProxyPassReverse http://localhost:11342/
+  </Location>
+ 
+  DocumentRoot /srv/www/foobar.com/public_html/weixin
+  <Directory "/srv/www/foobar.com/public_html/weixin">
+    AllowOverride All
+  </Directory>
+ 
+  ErrorLog /srv/www/foobar.com/logs/error.log
+  CustomLog /srv/www/foobar.com/logs/access.log combined
+</VirtualHost>
+```
 
 然后打开 vhost.conf 为 foobar.com 新增一个 virtual host 配置，在我的 CentOS 上的路径是：`/etc/httpd/conf.d/vhost.conf` 假设我们需要和 Apache 共享 80 端口的 Node.js 应用目录为：`/srv/www/foobar.com/public_html/weixin`，我们希望 Node.js 本身运行于 11342 端口。那么我们应该如下增加 vhost 配置： 
 
