@@ -24,12 +24,13 @@ From: <http://www.ccvita.com/400.html>
 
    [5]: http://sourceforge.net/projects/mcrypt/files/Libmcrypt/
 
+```
 tar zxvf libmcrypt-2.5.8.tar.gz  
 cd libmcrypt-2.5.8/  
 ./configure --disable-posix-threads --enable-static  
 make  
 sudo make install 
-
+```
   
 
   * 下载并解压[PHP源码文件php-5.3.4.tar.gz][6]。Mac OS X 10.6.3中预装的PHP版本是5.3.4，所以需要下载这个版本。  
@@ -39,25 +40,27 @@ sudo make install
 
    [6]: http://cn.php.net/get/php-5.3.4.tar.gz/from/a/mirror
 
+```
 tar zxvf php-5.3.4.tar.gz  
 cd php-5.3.4/ext/mcrypt  
 phpize  
 ./configure  
 make  
 sudo cp modules/mcrypt.so /usr/lib/php/extensions/no-debug-non-zts-20090626/ 
-
+```
   
 
   * 打开php.ini  
 
-
+```
 sudo vi /usr/local/lib/php.ini 
-
+```
   
 在php.ini中加入如下代码，并保存后退出，然后重启Apache  
 
-
+```
 extension=mcrypt.so 
+```
 
 Tags: [PHP][7], [配置][8], [mcrypt][9]
 
