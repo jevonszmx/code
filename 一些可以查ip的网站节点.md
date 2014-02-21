@@ -35,3 +35,16 @@ http://ip.taobao.com/service/getIpInfo.php?ip=116.231.101.255
 http://pv.sohu.com/cityjson?ie=utf-8
 ```
 
+### pconline
+
+```
+http://whois.pconline.com.cn/ipJson.jsp?ip=218.2.23.2&callback=1
+```
+
+### blueera
+
+```
+http://ip.blueera.net/api?ip=116.231.101.255&callback=call 
+
+```
+
