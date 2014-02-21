@@ -7,7 +7,7 @@
 <script type="text/javascript" src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js" charset="gb2312"></script>
 <script type="text/javascript"> 
 var uinfo = remote_ip_info['city'] ;
-document.title ="1.76天赐传奇【" + uinfo + "人自己的传奇】【咱" + uinfo + "人不得不玩】";
+document.title ="【" + uinfo + "人自己的游戏】【咱" + uinfo + "人不得不玩】";
 </script>
 
 ```
