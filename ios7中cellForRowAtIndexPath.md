@@ -1,8 +1,8 @@
-From: <http://www.gowhich.com/blog/473>
+
 
 最近在开发IOS7的应用发现有个方法似乎是有问题的，就是下面这个 
 
-```
+```objective-c
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 ```
 
@@ -10,11 +10,11 @@ From: <http://www.gowhich.com/blog/473>
 
 之前的实现过程如下： 
     
-```
+```objective-c
 
     - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
     {
-        static NSString *CellIdentifier = @"TeleplayPlayTableCell";
+        static NSString *CellIdentifier = @"Cell";
         
         //创建cell
         UITableViewCell *cell = [_dataTableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
@@ -37,10 +37,11 @@ From: <http://www.gowhich.com/blog/473>
 
 IOS7下面的实现过程如下：  
 
-```    
+```objective-c
+
     - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
     {
-        static NSString *CellIdentifier = @"TeleplayPlayTableCell";
+        static NSString *CellIdentifier = @"Cell";
         
         //注册要使用的cell
         [tableView registerClass:[UITableViewCell class]
@@ -65,6 +66,5 @@ IOS7下面的实现过程如下：
     }
     
 ```
-
-大家可以尝试一下，如果有其他问题，请指教。  
+  
 
