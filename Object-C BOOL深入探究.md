@@ -33,9 +33,9 @@ From: <http://blog.csdn.net/ahopedog/article/details/7390071>
 
 为了能更容易的理解Object-C中BOOL的用法，我们还是从最基本的if语句开始说明。 
 
-```
+
 ## if 
-```
+
 
         if是编程语言里最基本一个符号，简单的理解是表达式为真时执行，表达式为假时不执行。如果你是个JAVA程序员就要注意了，在c里，if有另外一种执行方式。表达式非0则执行，表达式为0则不执行。int, bool, char等类型的值都可以作为if的表达式使用。 
 
