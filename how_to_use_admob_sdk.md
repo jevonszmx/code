@@ -1,9 +1,13 @@
-
 需要额外加入：
 =====
 
-AdSupport.framework
-StoreKit.framework
+AdSupport.framework |
+----|
+StoreKit.framework |
+
+
+
+
 
 
 常见问题
