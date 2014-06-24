@@ -1,0 +1,103 @@
+#!/bin/sh
+###
+# 参数
+# svnbr 'tg' 'story3333' 'story#3333 需求333***'
+# 直接运行svnbr则输出提示
+#
+####
+
+
+prefix="/usr/local/webdata"
+ip="192.168.0.178"
+svnsvr="svn://$ip"
+username='mingxin.zhuang'
+password=''
+
+
+# 太影响速度，干掉了
+#if ping -c 3 $ip|grep '3 packets received' >/dev/null
+#	then
+#		echo '网络正常\n'
+#else
+#	echo '啊欧~网络不通！'
+#	exit 1
+#fi
+
+# 先看参数传了没
+if [[ ! "$1" && ! "$2" && ! "$3" ]]
+	then
+	echo 'usage: svnbr "fun" "story99999" "story#999999999 什么乱七八糟的需求！？" [1|2]\n'
+	echo '请传参数，格式如:\n'
+	echo '	svnbr "tuan" "story99999" "story#999999999 什么乱七八糟的需求！？" [1|2]\n' 
+	echo '参数说明：\n'
+	echo '	1、项目名称，如fun、taobao、super等，不支持fanlidb（没有release的不支持）；\n'
+	echo '	2、分支目录，如story9999,bug1235；\n'
+	echo '	3、svn log，不解释；\n'
+	echo '	4、如果是新的目录则传1，如果当前目录已经是svn分支要切换分支则传2\n'
+	echo '有更多需求或者bug、建议，请联系jevonszmx@gmail.com\n'
+	exit 
+fi
+
+# 可以不传，会自动解析当前目录为项目名
+if [ ! $1 ]
+	then
+		project_name=${PWD##*/}
+else
+	project_name=$1
+fi
+
+
+# 先判断分支存在不存在
+des_path=$svnsvr/$project_name/branches/$2
+
+svn list --username $username --password $password $des_path 2>&1|grep 'non-existent' >/dev/null
+
+if [[ $? -eq 0 ]]
+	then
+	# 分支不存在则建立新分支
+	svn copy -r HEAD --username $username --password $password $svnsvr/$project_name/release $svnsvr/$project_name/branches/$2 -m "$3" >/dev/null
+	echo '～创建分支成功.\n'
+else
+    echo '～分支已存在.\n'
+fi
+
+# checkout到当前目录
+if [[ $4 -eq 1 ]]
+	then 
+		echo "准备checkout代码...\n"
+		if [ "$5" -a '' = "$5" -a '.' != "$5" ]
+			then
+			path="$prefix/$5"
+		else
+			path="`pwd`"
+		fi
+		if [ ! -d $path ]
+			then 
+			echo '啊哦，目录不存在，开始创建...\n'
+			mkdir -p $path && chmod 777 $path
+			echo '目录创建成功...\n'
+		else
+			echo '目录已经存在...\n'
+		fi
+		echo '开始checkout代码...\n'
+		svn checkout --username $username --password $password $des_path . >/dev/null
+		echo "代码checkout成功,目录为:$path\n"
+
+# svn sw到当前目录
+else
+	echo "开始switch到当前目录...\n"
+	svn sw --username $username --password $password $des_path . >/dev/null
+	echo '代码switch到当前目录成功！\n'
+fi
+
+# 检查当前目录分支
+echo "当前分支：" && svn info|grep URL
+
+# 如果当前目录有Runtime目录，则删除
+
+if [ -d ./Runtime ]
+then
+    rm -rf ./Runtime && echo "\n已删除runtime\n"
+fi
+
+exit 0
