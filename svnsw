@@ -1,0 +1,51 @@
+#!/bin/sh
+###
+# 参数
+# svnsw story8888
+# 直接运行svnsw则输出提示
+#
+####
+
+
+prefix="/usr/local/webdata"
+ip="192.168.0.178"
+svnsvr="svn://$ip"
+username='mingxin.zhuang'
+password='caW2JCo3'
+
+
+# 先看参数传了没
+if [[ ! "$1" ]]
+	then
+	echo 'usage: svnsw story8888 \n'
+	exit 1	
+fi
+
+# 分析当前分支，svn切换
+project_name=${PWD##*/}
+orig_branche=`svn info|grep "URL: "|awk -F '/' '{print $6}'` && echo "\n原分支：$orig_branche\n"
+
+# 如果当前分支一致，则svn up
+if [[ "$orig_branche" = "$1" ]]
+	then
+	svn up >/dev/null
+else
+	svn sw --username $username --password $password $svnsvr/$project_name/branches/$1 2>&1 >/dev/null
+fi
+
+# 如果切换成功
+if [[ $? -eq 0 ]]
+	then
+	curr_branche=`svn info|grep "URL: "|awk '{print $2}'` && echo "现分支：$curr_branche"
+	
+	# 如果当前目录有Runtime目录，则删除
+	if [ -d ./Runtime ]
+		then
+	    rm -rf ./Runtime && echo "\n已删除runtime\n"
+	fi
+else
+    echo '～分支不存在.\n'
+    exit 1
+fi
+
+exit 0
