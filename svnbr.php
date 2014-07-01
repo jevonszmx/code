@@ -32,7 +32,7 @@ system("svn list $auth $password {$des_path} 2>&1 |grep 'non-existent' 2>&1 >/de
 # svn copy
 if (empty($list_return)) {
      # 分支不存在则建立新分支
-    $copy_return = system("svn copy -r HEAD $auth $svnsvr/$project_name/release {$des_path} -m \"{$story}\" 2>&1 > /dev/null ");
+    $copy_return = system("svn copy -r HEAD $auth $svnsvr/$project_name/release {$des_path} -m \"{$story}\"");
     echo "～创建分支成功.\n";
 }
 else {
@@ -41,8 +41,7 @@ else {
 
 #switch
 echo "开始switch到当前目录...\n";
-
-system("svn sw $auth {$des_path} . >/dev/null 2>&1");
+system("svn sw $auth {$des_path} .");
 echo "代码switch到当前目录成功！\n";
 
 # 检查当前目录分支
