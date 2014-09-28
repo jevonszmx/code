@@ -23,14 +23,29 @@ fi
 
 # 分析当前分支，svn切换
 project_name=${PWD##*/}
-orig_branche=`svn info|grep "URL: "|awk -F '/' '{print $6}'` && echo "\n原分支：$orig_branche\n"
+branche_path=`svn info|grep "URL: "|awk -F '/' '{print $5}'`
+orig_branche=`svn info|grep "URL: "|awk -F '/' '{print $6}'`
+if [[ "$branche_path" != "branches" ]]
+	then
+	echo "原分支:$branche_path"
+else
+	echo "\n原分支：$orig_branche\n"
+fi
+
 
 # 如果当前分支一致，则svn up
 if [[ "$orig_branche" = "$1" ]]
 	then
 	svn up >/dev/null
 else
-	svn sw --username $username --password $password $svnsvr/$project_name/branches/$1 2>&1 >/dev/null
+	case $1 in
+		release | trunk )
+			svn sw --username $username --password $password $svnsvr/$project_name/$1  -r HEAD --force --ignore-ancestry 2>&1 >/dev/null
+		;;
+		* )
+			svn sw --username $username --password $password $svnsvr/$project_name/branches/$1  -r HEAD --force --ignore-ancestry 2>&1 >/dev/null
+		;;
+	esac
 fi
 
 # 如果切换成功
