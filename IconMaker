@@ -1,5 +1,7 @@
 #!/usr/local/bin/php
 <?php
+# 注：请注意php路径，并给这个文件执行权限！！！
+
 # 通过原始1024X1024图片来生成各种iphone ios icon，包含Content.json
 # 
 # 使用说明：
