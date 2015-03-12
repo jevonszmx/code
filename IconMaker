@@ -1,0 +1,241 @@
+#!/usr/local/bin/php
+<?php
+# 通过原始1024X1024图片来生成各种iphone ios icon，包含Content.json
+# 
+# 使用说明：
+# 1、默认生成到当前目录:   IconMaker 1024.png
+# 2、指定路径： IconMaker 1024.png ~/Desktop/icon/
+
+# 生成结果自动结构如下：
+# Images.xcassets/
+#                   AppIcon.appiconset/
+#                                       Content.json
+#                                       Icon-60@3x.png
+# 拖入xcode即可
+
+
+$file_path = $save_path = '';
+
+// 原始图片文件路径
+if (isset($argv[1])) {
+    $file_path = $argv[1];
+}
+
+// 要生成的路径，可以不传
+if (isset($argv[2])) {
+    $save_path = $argv[2];
+    $save_path = ('/' == $save_path[strlen($save_path) - 1]) ? $save_path : ($save_path . '/');
+}
+
+$iconMaker = new IconMake($file_path, $save_path);
+$iconMaker->make();
+
+class IconMake {
+
+    /**
+     * 原始图片文件路径
+     * @var string 
+     */
+    private $src_file;
+
+    /**
+     * 原始图片文件信息
+     * @var string 
+     */
+    private $src_image;
+    private $src_width;
+    private $src_height;
+
+    /**
+     * 生成路径
+     * @var string
+     */
+    private $save_path;
+    // 目标文件尺寸和文件名
+    private $icon_sizes = array(
+        '80' => 'Icon-40@2x.png',
+        '120' => 'Icon-60@2x.png',
+        '180' => 'Icon-60@3x.png',
+        '58' => 'Icon-Small@2x.png',
+        '87' => 'Icon87.png',
+        '120' => 'Icon120.png',
+    );
+
+    /**
+     * 同时生成Content.json文件
+     * @var array 
+     */
+    private $content_json = array(
+        'images' => array(
+            array(
+                'size' => '29x29',
+                'idiom' => 'iphone',
+                'filename' => 'Icon-Small@2x.png',
+                'scale' => '2x',
+            ),
+            array(
+                'size' => '29x29',
+                'idiom' => 'iphone',
+                'filename' => 'Icon87.png',
+                'scale' => '3x',
+            ),
+            array(
+                'size' => '40x40',
+                'idiom' => 'iphone',
+                'filename' => 'Icon-40@2x.png',
+                'scale' => '2x',
+            ),
+            array(
+                'size' => '40x40',
+                'idiom' => 'iphone',
+                'filename' => 'Icon120.png',
+                'scale' => '3x',
+            ),
+            array(
+                'size' => '40x40',
+                'idiom' => 'iphone',
+                'filename' => 'Icon-60@2x.png',
+                'scale' => '2x',
+            ),
+            array(
+                'size' => '60x60',
+                'idiom' => 'iphone',
+                'filename' => 'Icon-60@3x.png',
+                'scale' => '3x',
+            ),
+        ),
+        'info' => array(
+            'version' => 1,
+            'author' => 'xcode',
+        ),
+    );
+
+    /**
+     * 初始化
+     * @param string $file_path 文件路径
+     * @param string $save_path 目标路径
+     */
+    function __construct($file_path, $save_path) {
+        $this->src_file = $file_path;
+        if ($save_path) {
+            $this->save_path = $save_path . '/Images.xcassets/AppIcon.appiconset/';
+            $this->checkSavePath();
+        }
+        $this->checkSrcImage();
+    }
+
+    /**
+     *  生成
+     */
+    public function make() {
+        $this->src_image = imagecreatefrompng($this->src_file);
+
+        foreach ($this->icon_sizes as $size => $name) {
+            $this->createThumbImage($size, $size, $name);
+        }
+
+        $this->createContentJson();
+    }
+
+    /**
+     * 检查目标路径
+     * @return type
+     */
+    private function checkSavePath() {
+        if (!$this->save_path) {
+            return;
+        }
+
+        if (!is_dir($this->save_path)) {
+            // 检查目录是否编码后的
+            if (is_dir(base64_decode($this->save_path))) {
+                $this->save_path = base64_decode($this->save_path);
+            }
+            else {
+                // 尝试创建目录
+                if (!mkdir($this->save_path, 0755, true)) {
+                    echo '错误：目录' . $this->save_path . '不存在，无法创建.' . "\n";
+                    exit(1);
+                }
+            }
+        }
+        else {
+            if (!is_writeable($this->save_path)) {
+                chmod($this->save_path, 0755);
+            }
+            if (!is_writeable($this->save_path)) {
+                echo '错误：目录' . $this->save_path . '不可写，无法修改权限.' . "\n";
+                exit(1);
+            }
+        }
+    }
+
+    /**
+     * 检查原始图片
+     */
+    private function checkSrcImage() {
+        # 文件不存在
+        if (!file_exists($this->src_file)) {
+            echo "使用说明：\n";
+            echo "默认使用：IconMaker 1024.png \n";
+            echo "指定路径：IconMaker 1024.png /tmp/ \n";
+            exit(1);
+        }
+
+        # 检查文件尺寸，原文件最好是1024x1024
+        # type 1 = GIF，2 = JPG，3 = PNG
+        list($this->src_width, $this->src_height, $type, $attr) = getimagesize($this->src_file);
+        if ((1024 != $this->src_width) || (1024 != $this->src_height)) {
+            echo "警告：原图尺寸最好是1024x1024！ \n";
+            exit(1);
+        }
+
+        if (3 != $type) {
+            echo "警告：原图格式不是PNG！ \n";
+            exit(1);
+        }
+    }
+
+    /**
+     * 循环创建小图标
+     * @param int $width
+     * @param int $height
+     * @param string $thumbname
+     */
+    private function createThumbImage($width, $height, $thumbname) {
+        //创建缩略图
+        if ($type != 'gif' && function_exists('imagecreatetruecolor')) {
+            $thumbImg = imagecreatetruecolor($width, $height);
+        }
+        else {
+            $thumbImg = imagecreate($width, $height);
+        }
+
+        // 复制图片
+        if (function_exists("ImageCopyResampled")) {
+            imagecopyresampled($thumbImg, $this->src_image, 0, 0, 0, 0, $width, $height, $this->src_width, $this->src_height);
+        }
+        else {
+            imagecopyresized($thumbImg, $this->src_image, 0, 0, 0, 0, $width, $height, $this->src_width, $this->src_height);
+        }
+        $background_color = imagecolorallocate($thumbImg, 0, 255, 0);  //  指派一个绿色
+        imagecolortransparent($thumbImg, $background_color);  //  设置为透明色，若注释掉该行则输出绿色的图
+        // 生成图片
+        imagepng($thumbImg, $this->save_path . $thumbname);
+        imagedestroy($thumbImg);
+    }
+
+    /**
+     * 创建Contents.json
+     */
+    function createContentJson() {
+        file_put_contents($this->save_path . 'Contents.json', json_encode($this->content_json));
+    }
+
+    function __destruct() {
+        if (is_object($this->src_image)) {
+            imagedestroy($this->src_image);
+        }
+    }
+
+}
