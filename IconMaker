@@ -1,7 +1,5 @@
 #!/usr/local/bin/php
 <?php
-# 注：请注意php路径，并给这个文件执行权限！！！
-
 # 通过原始1024X1024图片来生成各种iphone ios icon，包含Content.json
 # 
 # 使用说明：
@@ -205,6 +203,7 @@ class IconMake {
      * @param string $thumbname
      */
     private function createThumbImage($width, $height, $thumbname) {
+        imagesavealpha($this->src_image, true);
         //创建缩略图
         if ($type != 'gif' && function_exists('imagecreatetruecolor')) {
             $thumbImg = imagecreatetruecolor($width, $height);
@@ -212,6 +211,8 @@ class IconMake {
         else {
             $thumbImg = imagecreate($width, $height);
         }
+        imagealphablending($thumbImg, false); // 不合并颜色,直接用$img图像颜色替换,包括透明色;
+        imagesavealpha($thumbImg, true);// 不要丢了$thumb图像的透明色;
 
         // 复制图片
         if (function_exists("ImageCopyResampled")) {
@@ -223,6 +224,7 @@ class IconMake {
         $background_color = imagecolorallocate($thumbImg, 0, 255, 0);  //  指派一个绿色
         imagecolortransparent($thumbImg, $background_color);  //  设置为透明色，若注释掉该行则输出绿色的图
         // 生成图片
+        
         imagepng($thumbImg, $this->save_path . $thumbname);
         imagedestroy($thumbImg);
     }
