@@ -53,12 +53,30 @@ class IconMake {
     private $save_path;
     // 目标文件尺寸和文件名
     private $icon_sizes = array(
-        '80' => 'Icon-40@2x.png',
-        '120' => 'Icon-60@2x.png',
-        '180' => 'Icon-60@3x.png',
-        '58' => 'Icon-Small@2x.png',
-        '87' => 'Icon87.png',
-        '120' => 'Icon120.png',
+        array(
+            'size' => 80,
+            'name' => 'Icon-40@2x.png',
+        ),
+        array(
+            'size' => 120,
+            'name' => 'Icon-60@2x.png',
+        ),
+        array(
+            'size' => 180,
+            'name' => 'Icon-60@3x.png',
+        ),
+        array(
+            'size' => 58,
+            'name' => 'Icon-Small@2x.png',
+        ),
+        array(
+            'size' => 87,
+            'name' => 'Icon87.png',
+        ),
+        array(
+            'size' => 120,
+            'name' => 'Icon120.png',
+        ),
     );
 
     /**
@@ -92,7 +110,7 @@ class IconMake {
                 'scale' => '3x',
             ),
             array(
-                'size' => '40x40',
+                'size' => '60x60',
                 'idiom' => 'iphone',
                 'filename' => 'Icon-60@2x.png',
                 'scale' => '2x',
@@ -130,8 +148,8 @@ class IconMake {
     public function make() {
         $this->src_image = imagecreatefrompng($this->src_file);
 
-        foreach ($this->icon_sizes as $size => $name) {
-            $this->createThumbImage($size, $size, $name);
+        foreach ($this->icon_sizes as $img) {
+            $this->createThumbImage($img['size'], $img['size'], $img['name']);
         }
 
         $this->createContentJson();
