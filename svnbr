@@ -9,27 +9,24 @@ $ip = '192.168.0.178';
 $svnsvr = "svn://{$ip}";
 $username = 'mingxin.zhuang';
 $password = '';
+$auth = " --username $username --password $password ";
 
 # parse
 if (!isset($argv[1])) {
     echo "请输入需求号，如：STORY #88888::超返又来一个分流，哈哈！\n";
     exit(1);
 }
-$story = '';
-parse_str($argv[1], $story);
-
-$story = (array_shift(array_keys($story)));
+$story = trim($argv[1]);
 
 if (false !== strpos($story, '#')) {
     list($branches, $version) = explode('#', $story);
-    $branches = strtolower(str_replace('_', '', $branches));
+    $branches = trim(strtolower(str_replace('_', '', $branches)));
     $version = intval($version);
     # current dir => project name, like 'fun'、'mobile'
     $project_name = basename($_SERVER['PWD']);
 
     $des_path = "{$svnsvr}/{$project_name}/branches/{$branches}{$version}";
     $release = "{$svnsvr}/{$project_name}/release";
-    $auth = " --username $username --password $password ";
 
     system("svn list {$auth} {$des_path} 2>&1 |grep 'non-existent' 2>&1 >/dev/null", $list_return);
 
@@ -50,13 +47,17 @@ else if (is_numeric($story)) {
     $version = intval($story);
 
     $des_path = "{$svnsvr}/{$project_name}/branches/{$branches}{$version}";
-    $auth = " --username $username --password $password ";
 }
 
 #switch
 echo "开始switch到当前目录......";
-system("svn sw {$auth} {$des_path} .  -r HEAD --ignore-ancestry 2>&1 >/dev/null");
-echo "代码switch到当前目录成功！\n";
+system("svn sw {$auth} {$des_path} .  -r HEAD --ignore-ancestry 2>&1 >/dev/null", $list_return);
+if ($list_return) {
+    echo "分支switch失败，分支不存在！\n";
+    exit(1);
+}
+
+echo "分支switch到当前目录成功！\n";
 
 # 检查当前目录分支
 echo "当前分支：" . system("svn info|grep URL") . "\n";
@@ -68,6 +69,5 @@ if (is_dir('./Runtime')) {
     echo "\n已删除runtime\n";
 }
 exit(0);
-
 
 ?>
