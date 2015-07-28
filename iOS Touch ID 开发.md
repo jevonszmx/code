@@ -14,7 +14,7 @@ Touch ID的API非常的简单也好理解，在使用前我们需要导入LocalA
 
 首先来看下头文件的定义：
 
-```
+```objective-c
 //验证设备是否支持Touch ID
 - (BOOL)canEvaluatePolicy:(LAPolicy)policy error:(NSError * __autoreleasing *)error;
 //进行验证的回调
@@ -29,7 +29,7 @@ Touch ID的API非常的简单也好理解，在使用前我们需要导入LocalA
 
 代码使用示例
 
-```
+```objective-c
     LAContext *laContext = [[LAContext alloc] init];
     NSError *error;
 
