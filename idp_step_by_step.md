@@ -1,13 +1,11 @@
-Iphone开发这一路走来(新手必经)   
+Iphone开发这一路走来(新手必经)   － iphone iOS从注册到app上线开发流程
 
 
 
 流程：注册，开发，真机测试，发布，上线。
 
-iphone iOS4从注册到app上线开发流程
-http://blog.csdn.net/linzhiji/article/details/6732868
-
 一、关于注册账号IDP和AppleID:
+
 1、 注册AppId（无论是iOS使用者还是开发者 都需要有AppID，只是后者还需要付99$注册成为开发者。）
    网址：http://developer.apple.com
   由于上边的网址没有注册按钮，所以去itunes注册，方法参照（这里注册的是免费的，您需要注册付费的）：   
@@ -34,7 +32,7 @@ http://book.51cto.com/art/201003/187775.htm
 2 把Iphone程序连接真机调试  
 http://blog.csdn.net/wswqiang/article/details/6896127
 
-
+xcode 7 以后不需要买idp也可以连真机调试了。～
 
 四、应用程序内购买（IAP）
 启动IAP:
@@ -71,10 +69,11 @@ http://bbs.ldci.com.cn/read.php?tid-18371.html
 
 
 五、打包、发布、
-1、详解Xcode 4发布程序图文并茂教程
+
+1、详解Xcode 发布程序图文并茂教程
 http://mobile.51cto.com/iphone-281948.htm
 
-2、如何联机调试和发布程序(99$)  
+2、如何联机调试和发布程序(99$，人民币688)  
 
  http://www.cocoachina.com/bbs/read.php?tid-7923.html
 
@@ -101,8 +100,7 @@ Prepare for upload(准备上传) ---->Waiting for upload(等待上传)--->upload
 Prepare for upload(准备上传) ---->Waiting for upload(等待上传)--->upload Received(上传收稿)--->Waiting for Review(等待审核)--->InReview(审核中)--->Rejected(拒绝)
 
 六、上线
-提交了程序需要5天左右的审核，耐心等待！！
-
+提交了程序需要5－10天左右的审核，耐心等待！！
 
 
 七、其他
